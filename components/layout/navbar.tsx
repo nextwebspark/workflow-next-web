@@ -16,8 +16,8 @@ export async function Navbar() {
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Features
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Pricing
+            <a href="https://n8n.io/creators/alokkumar/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              Official Creator
             </a>
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               About
