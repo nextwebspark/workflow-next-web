@@ -15,13 +15,13 @@ export function Hero() {
               ))}
             </div>
             <span className="text-sm text-blue-700 font-medium">
-              Trusted by 10,000+ teams worldwide
+              Trusted by 10+ businesses in Ireland
             </span>
           </div>
 
           {/* Main headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Automate Your Business
+            Empower  Your Business
             <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
               with AI
             </span>
@@ -46,7 +46,7 @@ export function Hero() {
             </Button>
           </div>
 
-          {/* Stats */}
+          {/* Stats 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
             <div className="text-center">
               <div className="text-3xl font-bold text-gray-900 mb-1">99.9%</div>
@@ -60,7 +60,7 @@ export function Hero() {
               <div className="text-3xl font-bold text-gray-900 mb-1">10M+</div>
               <div className="text-sm text-gray-600">Tasks Automated</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
