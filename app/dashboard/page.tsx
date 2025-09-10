@@ -5,6 +5,7 @@ import { ProjectsTable } from '@/components/dashboard/projects-table';
 import { getProjectsByUser } from '@/lib/actions';
 import { FolderKanban, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 
+export const runtime = 'nodejs'
 export default async function DashboardPage() {
   const user = await currentUser();
   const projects = await getProjectsByUser();
