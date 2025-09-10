@@ -20,7 +20,7 @@ interface SidebarProps {
   user: {
     firstName: string | null;
     lastName: string | null;
-    emailAddresses: { emailAddress: string }[];
+    emailAddresses: string | null;
     imageUrl: string;
   };
 }
@@ -87,7 +87,7 @@ export function Sidebar({ user }: SidebarProps) {
                   {displayName}
                 </p>
                 <p className="text-sm text-gray-500 truncate">
-                  {user.emailAddresses[0]?.emailAddress}
+                  {user.emailAddresses || 'No email'}
                 </p>
               </div>
             </div>

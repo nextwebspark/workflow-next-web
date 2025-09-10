@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
+  // Server Actions are now stable in Next.js 14+, no need for experimental flag
   eslint: {
     ignoreDuringBuilds: true,
   },
 };
 
 module.exports = nextConfig;
+

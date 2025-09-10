@@ -1,5 +1,5 @@
 'use server';
-import { supabase } from './supabase';
+import { supabaseAdmin } from './supabase';
 import { auth, currentUser   } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 
@@ -22,7 +22,7 @@ export async function createProject(formData: FormData) {
   const user = await currentUser()
   
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('projects')
     .insert({
       name,
@@ -54,7 +54,7 @@ export async function getProjectsByUser() {
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('projects')
     .select('*')
     .eq('user_email', email)
