@@ -12,7 +12,8 @@ import {
   Settings, 
   LogOut, 
   Menu,
-  X
+  X,
+  Bot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +21,7 @@ interface SidebarProps {
   user: {
     firstName: string | null;
     lastName: string | null;
-    emailAddresses: string | null;
+    emailAddresses: { emailAddress: string }[];
     imageUrl: string;
   };
 }
@@ -28,6 +29,7 @@ interface SidebarProps {
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
+  { name: 'Train Bot', href: '/dashboard/trainbot', icon: Bot },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
@@ -87,7 +89,7 @@ export function Sidebar({ user }: SidebarProps) {
                   {displayName}
                 </p>
                 <p className="text-sm text-gray-500 truncate">
-                  {user.emailAddresses || 'No email'}
+                  {user.emailAddresses[0]?.emailAddress}
                 </p>
               </div>
             </div>

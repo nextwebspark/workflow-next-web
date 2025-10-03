@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
-import { SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import { currentUser } from '@clerk/nextjs/server';
 
 export async function Navbar() {
@@ -11,41 +11,21 @@ export async function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Logo />
-          
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Features
-            </a>
+
+          <div className="flex items-center space-x-6">
             <a href="https://n8n.io/creators/alokkumar/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Official Creator
-            </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              About
+              n8n Official Creator
             </a>
             <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Contact
             </a>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            {user ? (
+            {user && (
               <div className="flex items-center space-x-4">
                 <Button asChild variant="outline">
                   <a href="/dashboard">Dashboard</a>
                 </Button>
                 <UserButton afterSignOutUrl="/" />
               </div>
-            ) : (
-              <>
-                <SignInButton mode="modal">
-                  <Button variant="ghost">Sign In</Button>
-                </SignInButton>
-                <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                    Get Started
-                  </Button>
-                </SignUpButton>
-              </>
             )}
           </div>
         </div>

@@ -48,7 +48,7 @@ export async function getProjectsByUser() {
   if (!userId) {
     return [];
   }
-  
+
   // Get Clerk user data
   //const { clerkClient } = await import('@clerk/nextjs/server');
   const user = await currentUser()

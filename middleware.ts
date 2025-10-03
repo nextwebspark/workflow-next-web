@@ -10,10 +10,10 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Redirect to dashboard after successful sign-in
-  const { userId } = await auth();
+  /*const { userId } = await auth();
   if (userId && req.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
+  } */
 });
 
 export const config = {
