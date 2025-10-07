@@ -3,7 +3,14 @@ import { CreateProjectDialog } from '@/components/dashboard/create-project-dialo
 import { ProjectsTable } from '@/components/dashboard/projects-table';
 import { getProjectsByUser } from '@/lib/actions';
 
-export default async function ProjectsPage() {
+interface PageProps {
+  params: Promise<{}>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function ProjectsPage({ params, searchParams }: PageProps) {
+  await params;
+  await searchParams;
   const projects = await getProjectsByUser();
 
   return (

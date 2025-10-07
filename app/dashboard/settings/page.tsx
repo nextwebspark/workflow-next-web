@@ -3,7 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { UserButton } from '@clerk/nextjs';
 
-export default async function SettingsPage() {
+interface PageProps {
+  params: Promise<{}>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function SettingsPage({ params, searchParams }: PageProps) {
+  await params;
+  await searchParams;
   const user = await currentUser();
 
   return (

@@ -5,7 +5,14 @@ import { ProjectsPreview } from '@/components/landing/projects-preview';
 import { Footer } from '@/components/layout/footer';
 import { Technologies } from '@/components/landing/technologies';
 
-export default function HomePage() {
+interface PageProps {
+  params: Promise<{}>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function HomePage({ params, searchParams }: PageProps) {
+  await params;
+  await searchParams;
   return (
     <div className="min-h-screen">
       <Navbar />

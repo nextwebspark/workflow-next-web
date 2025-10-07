@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { 
   PlayCircle, 
   BarChart, 
@@ -13,13 +14,32 @@ import {
   Rocket,
   X,
   ChevronLeft,
-  ChevronRight 
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Files,
+  Globe,
+  MessageCircle,
+  HardDrive
 } from 'lucide-react';
+
+const sourceSubMenu = [
+  { name: 'Files', href: '/source/files', icon: Files },
+  { name: 'Text', href: '/source/text', icon: MessageCircle },
+  { name: 'Website', href: '/source/website', icon: Globe },
+  { name: 'Q&A', href: '/source/qa', icon: MessageSquare },
+  { name: 'Drive', href: '/source/drive', icon: HardDrive },
+];
 
 const projectNavigation = [
   { name: 'Playground', href: '/playground', icon: PlayCircle },
   { name: 'Analytics', href: '/analytics', icon: BarChart },
-  { name: 'Source', href: '/source', icon: Database },
+  { 
+    name: 'Source', 
+    href: '/source', 
+    icon: Database,
+    subMenu: sourceSubMenu
+  },
   { name: 'Action', href: '/action', icon: Workflow },
   { name: 'Contact', href: '/contact', icon: MessageSquare },
   { name: 'Deploy', href: '/deploy', icon: Rocket },
@@ -41,6 +61,7 @@ export function ProjectSidebar({
   onMobileClose,
 }: ProjectSidebarProps) {
   const pathname = usePathname();
+  const [isSourceExpanded, setIsSourceExpanded] = useState(false);
 
   return (
     <>
@@ -77,6 +98,69 @@ export function ProjectSidebar({
             {projectNavigation.map((item) => {
               const isActive = pathname === `/project/${projectId}${item.href}`;
               
+              const isSourceSection = item.name === 'Source';
+              const isSourceActive = pathname.startsWith(`/project/${projectId}/source`);
+
+              if (isSourceSection) {
+                return (
+                  <div key={item.name}>
+                    <button
+                      onClick={() => setIsSourceExpanded(!isSourceExpanded)}
+                      className={cn(
+                        "w-full group flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                        isSourceActive
+                          ? "bg-blue-50 text-blue-700"
+                          : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                      title={!isExpanded ? item.name : undefined}
+                    >
+                      <div className="flex items-center">
+                        <item.icon className={cn(
+                          "h-5 w-5",
+                          isSourceActive ? "text-blue-700" : "text-gray-400 group-hover:text-gray-900",
+                          isExpanded ? "mr-3" : "mx-auto"
+                        )} />
+                        {isExpanded && <span>{item.name}</span>}
+                      </div>
+                      {isExpanded && (
+                        isSourceExpanded ? 
+                          <ChevronUp className="h-4 w-4 text-gray-500" /> :
+                          <ChevronDown className="h-4 w-4 text-gray-500" />
+                      )}
+                    </button>
+                    
+                    {/* Source Submenu */}
+                    {isSourceExpanded && isExpanded && (
+                      <div className="ml-4 mt-1 space-y-1">
+                        {sourceSubMenu.map((subItem) => {
+                          const isSubActive = pathname === `/project/${projectId}${subItem.href}`;
+                          
+                          return (
+                            <Link
+                              key={subItem.name}
+                              href={`/project/${projectId}${subItem.href}`}
+                              onClick={onMobileClose}
+                              className={cn(
+                                "group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                isSubActive
+                                  ? "bg-blue-50 text-blue-700"
+                                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                              )}
+                            >
+                              <subItem.icon className={cn(
+                                "h-4 w-4 mr-3",
+                                isSubActive ? "text-blue-700" : "text-gray-400 group-hover:text-gray-900"
+                              )} />
+                              <span>{subItem.name}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={item.name}

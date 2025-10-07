@@ -5,8 +5,18 @@ import { ProjectsTable } from '@/components/dashboard/projects-table';
 import { getProjectsByUser } from '@/lib/actions';
 import { FolderKanban, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 
+
 export const runtime = 'nodejs'
-export default async function DashboardPage() {
+
+interface PageProps {
+  params: Promise<{ [key: string]: never }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function DashboardPage({ params, searchParams }: PageProps) {
+  await params; // Ensure params are resolved
+  await searchParams; // Ensure searchParams are resolved
+
   const user = await currentUser();
   const projects = await getProjectsByUser();
 

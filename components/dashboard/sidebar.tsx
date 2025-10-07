@@ -12,8 +12,7 @@ import {
   Settings, 
   LogOut, 
   Menu,
-  X,
-  Bot
+  X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,7 +28,6 @@ interface SidebarProps {
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Projects', href: '/dashboard/projects', icon: FolderKanban },
-  { name: 'Train Bot', href: '/dashboard/trainbot', icon: Bot },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
