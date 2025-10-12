@@ -62,7 +62,7 @@ export function ProjectsTable({ projects }: ProjectsTableProps) {
               <TableCell>
                 <div>
                   <Link 
-                    href={`/project/${project.id}/playground`}
+                    href={`/dashboard/projects/${project.id}/playground`}
                     className="font-medium text-gray-900 hover:text-blue-600 transition-colors"
                   >
                     {project.name}
