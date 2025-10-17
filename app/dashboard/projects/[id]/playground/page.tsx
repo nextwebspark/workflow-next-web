@@ -1,35 +1,48 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+
+import { useState } from 'react';
+import { PlaygroundSettingsPanel } from './components/PlaygroundSettingsPanel';
+import { ChatWidget } from './components/ChatWidget';
+
+const defaultSettings = {
+  model: 'gpt-4',
+  contextWindow: 4096,
+  temperature: 0.7,
+  topP: 0.9,
+  topK: 40,
+  maxTokens: 1000,
+  learningRate: 0.001,
+  frequencyPenalty: 0,
+  presencePenalty: 0,
+  stopSequence: '',
+};
 
 interface PageProps {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function PlaygroundPage({ params, searchParams }: PageProps) {
-  const resolvedParams = await params;
-  await searchParams; // Ensure searchParams are resolved
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Playground</h1>
-        <p className="text-gray-600 mt-1">
-          Test and experiment with your project's functionality.
-        </p>
-      </div>
+export default function PlaygroundPage({ params, searchParams }: PageProps) {
+  const [settings, setSettings] = useState(defaultSettings);
 
-      <Card className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-xl font-bold text-gray-900">
-            Project Playground
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            Interact with your project in real-time.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {/* Playground content will go here */}
-        </CardContent>
-      </Card>
+  const handleSettingsChange = (newSettings: Partial<typeof defaultSettings>) => {
+    setSettings((prev) => ({ ...prev, ...newSettings }));
+  };
+
+  return (
+    <div className="h-[calc(100vh-4rem)] bg-dot-pattern relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.4]" />
+      <div className="relative h-full flex">
+        <div className="w-[320px] shrink-0 border-r bg-background/50 backdrop-blur-sm overflow-y-auto">
+          <PlaygroundSettingsPanel
+            settings={settings}
+            onSettingsChange={handleSettingsChange}
+          />
+        </div>
+        <div className="flex-1 h-full">
+          <ChatWidget />
+        </div>
+      </div>
     </div>
   );
 }
