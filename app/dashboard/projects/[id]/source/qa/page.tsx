@@ -14,6 +14,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { SourcePage } from '@/components/source/source-page';
 import { Plus, Save, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import { useParams } from 'next/navigation';
+import { submitFaqData } from '@/lib/actions/externalApi';
 
 interface QA {
   id: string;
@@ -23,11 +26,13 @@ interface QA {
 }
 
 export default function QaPage() {
+  const { id: projectId } = useParams<{ id: string }>();
   const [qas, setQas] = useState<QA[]>([
     { id: Date.now().toString(), type: '', question: '', answer: '' },
   ]);
   const [isSaving, setIsSaving] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const handleAddQA = () => {
     setQas((prev) => [
@@ -51,10 +56,39 @@ export default function QaPage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise((res) => setTimeout(res, 1000)); // Simulate API call
-    console.log('Submitted Q&A:', qas);
+
+    const hasEmptyFields = qas.some((qa) => !qa.question || !qa.answer);
+    if (hasEmptyFields) {
+      toast.error('Please fill out all question and answer fields.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const result = await submitFaqData(projectId, qas);
+      if (result.success) {
+        toast.success(result.message);
+        setQas([{ id: Date.now().toString(), type: '', question: '', answer: '' }]);
+        setSubmissionSuccess(true);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred.');
+    }
     setIsSubmitting(false);
   };
+
+  if (submissionSuccess) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <div className="bg-white p-8 rounded-lg shadow-md text-center">
+          <h2 className="text-2xl font-bold text-green-600 mb-4"> FAQ saved successfully!</h2>
+          <Button onClick={() => setSubmissionSuccess(false)}>Add Another Question</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <SourcePage
@@ -62,6 +96,7 @@ export default function QaPage() {
       description="Create question and answer pairs for your project."
     >
       <div className="space-y-6">
+
         {qas.map((qa, index) => (
           <div
             key={qa.id}
