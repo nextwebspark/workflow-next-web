@@ -1,28 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { ProjectTopBar } from '@/components/project/project-top-bar';
-import { ProjectSidebar } from '@/components/project/project-sidebar';
 import type { Project } from '@/lib/types';
 
 interface ProjectLayoutContentProps {
   children: React.ReactNode;
-  project: Project;
+  project: Project; // Keep project prop for potential future use, or remove if not needed.
 }
 
-export function ProjectLayoutContent({ children, project }: ProjectLayoutContentProps) {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <div className="flex flex-1 overflow-hidden">
-        <main className="flex-1 overflow-auto">
-          <div className="p-6 lg:p-8">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
-  );
+export function ProjectLayoutContent({ children }: ProjectLayoutContentProps) {
+  // This component now just passes children through, removing the extra layout.
+  return <div className="p-6 lg:p-8">
+    {children}
+  </div>;
 }

@@ -21,9 +21,9 @@ export default async function ProjectLayout({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ProjectLayoutContent project={project}>
+    <div className="p-6 lg:p-8">
         {children}
-      </ProjectLayoutContent>
+    </div>
     </Suspense>
   );
 }

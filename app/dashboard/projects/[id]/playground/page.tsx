@@ -40,7 +40,7 @@ export default function PlaygroundPage({ params, searchParams }: PageProps) {
           />
         </div>
         <div className="flex-1 h-full">
-          <ChatWidget />
+          <ChatWidget projectId={params.id} />
         </div>
       </div>
     </div>

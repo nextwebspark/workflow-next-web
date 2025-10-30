@@ -1,4 +1,5 @@
 import { SourcePage } from '@/components/source/source-page';
+import { FileUploadSection } from "@/components/source/file-upload";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -7,15 +8,15 @@ interface PageProps {
 
 export default async function FilesPage({ params, searchParams }: PageProps) {
   const resolvedParams = await params;
-  await searchParams; // Ensure searchParams are resolved
+  await searchParams;
+
   return (
     <SourcePage
       title="Files"
       description="Upload and manage your project files."
     >
-      {/* Files content will go here */}
-      <div className="text-sm text-gray-600">
-        Files section coming soon...
+      <div className="max-w-3xl mx-auto w-full">
+        <FileUploadSection projectId={resolvedParams.id} />
       </div>
     </SourcePage>
   );

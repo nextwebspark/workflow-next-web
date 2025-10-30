@@ -1,11 +1,11 @@
 'use client';
 
-import { motion, useDragControls } from 'framer-motion';
-import { Send, GripHorizontal } from 'lucide-react';
+import { motion, useDragControls } from 'framer-motion'
+import { Send, GripHorizontal, X } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface Message {
@@ -16,12 +16,20 @@ interface Message {
 
 interface ChatWidgetProps {
   className?: string;
+  projectId?: string;
+  isEmbedded?: boolean;
 }
 
-export function ChatWidget({ className }: ChatWidgetProps) {
+export function ChatWidget({ className, projectId, isEmbedded = false }: ChatWidgetProps) {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const dragControls = useDragControls();
+
+  useEffect(() => {
+    if (projectId) {
+      console.log('ChatWidget initialized for projectId:', projectId);
+    }
+  }, [projectId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,34 +47,54 @@ export function ChatWidget({ className }: ChatWidgetProps) {
     setTimeout(() => {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'This is a sample AI reply. Replace with real API response.',
+        content: `This is a sample AI reply for project ${projectId}.`,
         role: 'assistant',
       };
       setMessages((prev) => [...prev, aiMessage]);
     }, 800);
   };
 
+  const handleClose = () => {
+    if (isEmbedded && window.parent) {
+      // Send a message to the parent window to close the chat
+      // The '*' is a wildcard for the target origin. For production, you should
+      // specify the exact origin of the parent page for security.
+      window.parent.postMessage('nexweb-chat-close', '*');
+    }
+  };
   return (
     <motion.div
-      drag
+      drag={!isEmbedded}
       dragControls={dragControls}
       dragMomentum={false}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'fixed bottom-4 right-4 flex flex-col bg-white/90 backdrop-blur-md rounded-2xl border shadow-md w-[90vw] max-w-md h-[70vh]',
+        'flex flex-col bg-white/90 backdrop-blur-md',
+        isEmbedded
+          ? 'w-full h-full'
+          : 'fixed bottom-4 right-4 rounded-2xl border shadow-md w-[90vw] max-w-md h-[70vh]',
         className
       )}
     >
       {/* Header */}
       <div
-        className="h-8 flex items-center justify-between px-2 cursor-move border-b bg-gray-50/60 rounded-t-2xl"
-        onPointerDown={(e) => dragControls.start(e)}
+        className={cn(
+          'h-8 flex items-center justify-between px-2 border-b bg-gray-50/60',
+          isEmbedded ? '' : 'cursor-move rounded-t-2xl'
+        )}
+        onPointerDown={isEmbedded ? undefined : (e) => dragControls.start(e)}
       >
         <div className="flex items-center gap-2 text-gray-400 text-sm">
-          <GripHorizontal className="h-4 w-4" />
+          {!isEmbedded && <GripHorizontal className="h-4 w-4" />}
           Chat
         </div>
+        {isEmbedded && (
+          <Button variant="ghost" size="icon" onClick={handleClose} className="h-6 w-6">
+            <X className="h-4 w-4 text-gray-500" />
+            <span className="sr-only">Close chat</span>
+          </Button>
+        )}
       </div>
 
       {/* Messages */}

@@ -31,10 +31,8 @@ export default async function DashboardLayout({
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar user={user_to_pass} />
-      <main className="flex-1 overflow-auto lg:ml-0">
-        <div className="p-6 lg:p-8">
-          {children}
-        </div>
+      <main className="flex-1 overflow-y-auto">
+        {children}
       </main>
     </div>
   );
