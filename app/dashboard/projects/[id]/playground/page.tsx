@@ -17,12 +17,13 @@ const defaultSettings = {
   stopSequence: '',
 };
 
-interface PageProps {
+export default function PlaygroundPage({
+  params,
+  searchParams,
+}: {
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default function PlaygroundPage({ params, searchParams }: PageProps) {
+}) {
   const [settings, setSettings] = useState(defaultSettings);
 
   const handleSettingsChange = (newSettings: Partial<typeof defaultSettings>) => {
