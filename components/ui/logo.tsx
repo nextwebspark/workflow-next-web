@@ -13,7 +13,7 @@ export function Logo({ className = "", showText = true }: LogoProps) {
       </div>
       {showText && (
         <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          NextWeb Spark
+          NextWeb
         </span>
       )}
     </div>

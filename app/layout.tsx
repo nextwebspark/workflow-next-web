@@ -11,11 +11,16 @@ export const metadata: Metadata = {
   description: 'Helping businesses automate their workflows with AI. Transform your operations and scale faster.',
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface LayoutProps {
   children: React.ReactNode;
-}) {
+  params: Promise<{}>
+}
+
+export default async function RootLayout({
+  children,
+  params
+}: LayoutProps) {
+  await params;
   return (
     <ClerkProvider>
       <html lang="en">

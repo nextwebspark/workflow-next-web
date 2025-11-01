@@ -1,10 +1,13 @@
 import { Logo } from '@/components/ui/logo';
+import { SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs/server';
 
-export function Footer() {
+export async function Footer() {
+  const user = await currentUser();
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <Logo className="mb-4" />
@@ -14,18 +17,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold mb-4">Product</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">API</a></li>
-            </ul>
-          </div>
-
-          {/* Company Links */}
+          {/* Company Links 
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-gray-400">
@@ -33,6 +25,31 @@ export function Footer() {
               <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+            </ul>
+          </div>*/}
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-semibold mb-4">Client Section</h3>
+            <ul className="space-y-2 text-gray-400">
+              {!user && (
+                <>
+                  <li>
+                    <SignInButton mode="modal">
+                      <a href="#" className="hover:text-white transition-colors">
+                        Sign In
+                      </a>
+                    </SignInButton>
+                  </li>
+                  <li>
+                    <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
+                      <a href="#" className="hover:text-white transition-colors">
+                        Sign Up
+                      </a>
+                    </SignUpButton>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

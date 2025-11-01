@@ -48,9 +48,8 @@ export async function getProjectsByUser() {
   if (!userId) {
     return [];
   }
-  
+
   // Get Clerk user data
-  //const { clerkClient } = await import('@clerk/nextjs/server');
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress
 
@@ -66,4 +65,28 @@ export async function getProjectsByUser() {
   }
 
   return data;
+}
+
+export async function getProjectById(id: string) {
+  const { userId } = await auth();
+  
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const { data: project, error } = await supabaseAdmin
+    .from('projects')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to fetch project: ${error.message}`);
+  }
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  return project;
 }

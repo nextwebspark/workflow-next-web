@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import {
   Table,
@@ -60,7 +61,12 @@ export function ProjectsTable({ projects }: ProjectsTableProps) {
             <TableRow key={project.id} className="hover:bg-gray-50">
               <TableCell>
                 <div>
-                  <div className="font-medium text-gray-900">{project.name}</div>
+                  <Link 
+                    href={`/dashboard/projects/${project.id}/playground`}
+                    className="font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                  >
+                    {project.name}
+                  </Link>
                 </div>
               </TableCell>
               <TableCell>
